@@ -19,7 +19,7 @@ import * as React from "react";
 import {_, pgettext, interpolate} from "translate";
 import {post, get} from "requests";
 import {errorAlerter} from "misc";
-import {GoThemes} from "goban";
+import {GoThemes, ThemeNames} from "goban";
 import {getSelectedThemes} from "preferences";
 import * as preferences from "preferences";
 import {PersistentElement} from "PersistentElement";
@@ -112,14 +112,14 @@ export class GobanThemePicker extends React.PureComponent<GobanThemePickerProper
                             className={"selector" + (this.state.board === theme.theme_name ? " active" : "")}
                             style={{
                                 ...theme.styles,
-                                ...(theme.theme_name === "Plain" ? {backgroundColor: boardCustom} : {})
+                                ...(theme.theme_name === ThemeNames.Plain ? {backgroundColor: boardCustom} : {})
                             }}
                             onClick={this.selectTheme["board"][theme.theme_name]}
                             >
                             <PersistentElement elt={this.canvases.board[idx]} />
                         </div>
                     ))}
-                    {this.state.board === "Plain" &&
+                    {this.state.board === ThemeNames.Plain &&
                         <div>
                             <input type="color" style={inputStyle} value={boardCustom} onChange={this.setCustom.bind(this, "board")} />
                             <button className="color-reset" onClick={this.setCustom.bind(this, "board")}><i className="fa fa-undo"/></button>
@@ -139,7 +139,7 @@ export class GobanThemePicker extends React.PureComponent<GobanThemePickerProper
                             <PersistentElement elt={this.canvases.white[idx]} />
                         </div>
                     ))}
-                    {this.state.white === "Plain" &&
+                    {this.state.white === ThemeNames.Plain &&
                         <div>
                             <input type="color" style={inputStyle} value={whiteCustom} onChange={this.setCustom.bind(this, "white")} />
                             <button className="color-reset" onClick={this.setCustom.bind(this, "white")}><i className="fa fa-undo"/></button>
@@ -157,7 +157,7 @@ export class GobanThemePicker extends React.PureComponent<GobanThemePickerProper
                             <PersistentElement elt={this.canvases.black[idx]} />
                         </div>
                     ))}
-                    {this.state.black === "Plain" &&
+                    {this.state.black === ThemeNames.Plain &&
                         <div>
                             <input type="color" style={inputStyle} value={blackCustom} onChange={this.setCustom.bind(this, "black")} />
                             <button className="color-reset" onClick={this.setCustom.bind(this, "black")}><i className="fa fa-undo"/></button>
@@ -199,7 +199,7 @@ export class GobanThemePicker extends React.PureComponent<GobanThemePickerProper
             ctx.fillText("A", xx + 0.5, yy + 0.5);
         }
 
-        let plain_board = new (GoThemes["board"]["Plain"])();
+        let plain_board = new (GoThemes["board"][ThemeNames.Plain])();
         for (let i = 0; i < GoThemes.white.sorted.length; ++i) {
             let Theme = GoThemes.white.sorted[i];
             let theme = new Theme();

@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import {ThemeNames} from "../GoThemes";
 import GoTheme from "../GoTheme";
 import {_} from "../translate";
 import * as data from "data";
@@ -52,8 +53,8 @@ export default function(GoThemes) {
     }
 
 
-    _("Plain"); // ensure translation exists
-    GoThemes["board"]["Plain"] = Plain;
+    _(ThemeNames.Plain); // ensure translation exists
+    GoThemes["board"][ThemeNames.Plain] = Plain;
 
     class Night extends GoTheme {
         sort() {
@@ -73,8 +74,8 @@ export default function(GoThemes) {
         getLabelTextColor() { return "#555555"; }
     }
 
-    _("Night Play"); // ensure translation exists
-    GoThemes["board"]["Night Play"] = Night;
+    _(ThemeNames.NightPlay); // ensure translation exists
+    GoThemes["board"][ThemeNames.NightPlay] = Night;
 
 
 
@@ -96,8 +97,8 @@ export default function(GoThemes) {
         getLabelTextColor() { return HNG.C2; }
     }
 
-    _("HNG"); // ensure translation exists
-    GoThemes["board"]["HNG"] = HNG;
+    _(ThemeNames.HNG); // ensure translation exists
+    GoThemes["board"][ThemeNames.HNG] = HNG;
 
 
 
@@ -118,8 +119,8 @@ export default function(GoThemes) {
         getLabelTextColor() { return "#4481B5"; }
     }
 
-    _("HNG Night"); // ensure translation exists
-    GoThemes["board"]["HNG Night"] = HNGNight;
+    _(ThemeNames.HNGNight); // ensure translation exists
+    GoThemes["board"][ThemeNames.HNGNight] = HNGNight;
 
 
     class Book extends GoTheme {
@@ -141,6 +142,6 @@ export default function(GoThemes) {
     }
 
 
-    _("Book"); // ensure translation exists
-    GoThemes["board"]["Book"] = Book;
+    _(ThemeNames.Book); // ensure translation exists
+    GoThemes["board"][ThemeNames.Book] = Book;
 }

@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import {ThemeNames} from "../GoThemes";
 import GoTheme from "../GoTheme";
 import {_} from "../translate";
 import {Goban} from '../Goban';
@@ -36,8 +37,8 @@ export default function(GoThemes) {
         getLabelTextColor() { return "#444444"; }
     }
 
-    _("Kaya"); // ensure translation
-    GoThemes["board"]["Kaya"] = Kaya;
+    _(ThemeNames.Kaya); // ensure translation
+    GoThemes["board"][ThemeNames.Kaya] = Kaya;
 
 
     class RedOak extends GoTheme {
@@ -57,8 +58,8 @@ export default function(GoThemes) {
     }
 
 
-    _("Red Oak"); // ensure translation
-    GoThemes["board"]["Red Oak"] = RedOak;
+    _(ThemeNames.RedOak); // ensure translation
+    GoThemes["board"][ThemeNames.RedOak] = RedOak;
 
 
 
@@ -79,8 +80,8 @@ export default function(GoThemes) {
     }
 
 
-    _("Persimmon"); // ensure translation
-    GoThemes["board"]["Persimmon"] = Persimmon;
+    _(ThemeNames.Persimmon); // ensure translation
+    GoThemes["board"][ThemeNames.Persimmon] = Persimmon;
 
 
     class BlackWalnut extends GoTheme {
@@ -100,8 +101,8 @@ export default function(GoThemes) {
     }
 
 
-    _("Black Walnut"); // ensure translation
-    GoThemes["board"]["Black Walnut"] = BlackWalnut;
+    _(ThemeNames.BlackWalnut); // ensure translation
+    GoThemes["board"][ThemeNames.BlackWalnut] = BlackWalnut;
 
 
     class Granite extends GoTheme {

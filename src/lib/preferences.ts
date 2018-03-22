@@ -14,9 +14,8 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 import * as data from "data";
-import {GoThemes} from "goban";
+import {GoThemes, ThemeNames} from "goban";
 import {current_language} from "translate";
 
 let defaults = {
@@ -98,13 +97,13 @@ export function getSelectedThemes() {
     //let default_plain = $.browser.mobile || ($(window).width() * (window.devicePixelRatio || 1)) <= 768;
     let default_plain = ($(window).width() * (window.devicePixelRatio || 1)) <= 768;
 
-    let board = get("goban-theme-board") || (default_plain ? "Plain" : "Kaya");
-    let white = get("goban-theme-white") || (default_plain ? "Plain" : "Shell");
-    let black = get("goban-theme-black") || (default_plain ? "Plain" : "Slate");
+    let board = get("goban-theme-board") || (default_plain ? ThemeNames.Plain : ThemeNames.Kaya);
+    let white = get("goban-theme-white") || (default_plain ? ThemeNames.Plain : ThemeNames.Shell);
+    let black = get("goban-theme-black") || (default_plain ? ThemeNames.Plain : ThemeNames.Slate);
 
-    if (!(board in GoThemes["board"])) { board = default_plain ? "Plain" : "Kaya"; }
-    if (!(white in GoThemes["white"])) { white = default_plain ? "Plain" : "Shell"; }
-    if (!(black in GoThemes["black"])) { black = default_plain ? "Plain" : "Slate"; }
+    if (!(board in GoThemes["board"])) { board = default_plain ? ThemeNames.Plain : ThemeNames.Kaya; }
+    if (!(white in GoThemes["white"])) { white = default_plain ? ThemeNames.Plain : ThemeNames.Shell; }
+    if (!(black in GoThemes["black"])) { black = default_plain ? ThemeNames.Plain : ThemeNames.Slate; }
 
     return {
         "board": board,

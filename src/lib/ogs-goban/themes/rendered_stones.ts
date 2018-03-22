@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import {ThemeNames} from "../GoThemes";
 import GoTheme from "../GoTheme";
 import {_} from "../translate";
 import {deviceCanvasScalingRatio} from "../GoUtil";
@@ -419,8 +420,8 @@ export default function(GoThemes) {
         }
     }
 
-    _("Slate"); // ensure translation
-    GoThemes["black"]["Slate"] = Slate;
+    _(ThemeNames.Slate); // ensure translation
+    GoThemes["black"][ThemeNames.Slate] = Slate;
 
 
 
@@ -447,8 +448,8 @@ export default function(GoThemes) {
             return "#000000";
         }
     }
-    _("Shell"); // ensure translation
-    GoThemes["white"]["Shell"] = Shell;
+    _(ThemeNames.Shell); // ensure translation
+    GoThemes["white"][ThemeNames.Shell] = Shell;
 
     /* }}} */
 
@@ -471,8 +472,8 @@ export default function(GoThemes) {
         }
     }
 
-    _("Glass"); // ensure translation
-    GoThemes["black"]["Glass"] = GlassBlack;
+    _(ThemeNames.Glass); // ensure translation
+    GoThemes["black"][ThemeNames.Glass] = GlassBlack;
 
 
     class GlassWhite extends Common {
@@ -494,7 +495,7 @@ export default function(GoThemes) {
         }
     }
 
-    GoThemes["white"]["Glass"] = GlassWhite;
+    GoThemes["white"][ThemeNames.Glass] = GlassWhite;
 
     /* }}} */
 
@@ -518,8 +519,8 @@ export default function(GoThemes) {
         }
     }
 
-    _("Worn Glass"); // ensure translation
-    GoThemes["black"]["Worn Glass"] = WornGlassBlack;
+    _(ThemeNames.WornGlass); // ensure translation
+    GoThemes["black"][ThemeNames.WornGlass] = WornGlassBlack;
 
     class WornGlassWhite extends Common {
         sort() { return  21; }
@@ -539,7 +540,7 @@ export default function(GoThemes) {
             return "#000000";
         }
     }
-    GoThemes["white"]["Worn Glass"] = WornGlassWhite;
+    GoThemes["white"][ThemeNames.WornGlass] = WornGlassWhite;
     /* }}} */
 
     /* Night {{{ */
@@ -561,8 +562,8 @@ export default function(GoThemes) {
         }
     }
 
-    _("Night"); // ensure translation
-    GoThemes["black"]["Night"] = NightBlack;
+    _(ThemeNames.Night); // ensure translation
+    GoThemes["black"][ThemeNames.Night] = NightBlack;
 
 
     class NightWhite extends Common {
@@ -583,6 +584,6 @@ export default function(GoThemes) {
             return "#000000";
         }
     }
-    GoThemes["white"]["Night"] = NightWhite;
+    GoThemes["white"][ThemeNames.Night] = NightWhite;
     /* }}} */
 }

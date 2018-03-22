@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+import {ThemeNames} from "../GoThemes";
 import GoTheme from "../GoTheme";
 import {_} from "../translate";
 import * as data from "data";
@@ -80,7 +80,7 @@ export default function(GoThemes) {
         }
     }
 
-    GoThemes["black"]["Plain"] = Black;
-    GoThemes["white"]["Plain"] = White;
+    GoThemes["black"][ThemeNames.Plain] = Black;
+    GoThemes["white"][ThemeNames.Plain] = White;
 
 }

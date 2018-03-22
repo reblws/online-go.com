@@ -16,6 +16,24 @@
 
 import GoTheme from "./GoTheme";
 
+export const ThemeNames = {
+    Plain: "Plain",
+    NightPlay: "Night Play",
+    HNG: "HNG",
+    HNGNight: "HNG Night",
+    Book: "Book",
+    Kaya: "Kaya",
+    RedOak: "Red Oak",
+    Persimmon: "Persimmon",
+    BlackWalnut: "Black Walnut",
+    Granite: "Granite",
+    Shell: "Shell",
+    Glass: "Glass",
+    WornGlass: "Worn Glass",
+    Night: "Night",
+    Slate: "Slate",
+};
+
 export const GoThemes = {
     white: {} as any,
     black: {} as any,

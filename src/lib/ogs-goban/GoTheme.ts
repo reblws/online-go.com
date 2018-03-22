@@ -18,7 +18,7 @@ export default class GoTheme {
     public name: string;
     protected parent: GoTheme; // An optional parent theme
 
-    constructor(parent) {
+    constructor(parent?) {
         this.parent = parent;
     }
 

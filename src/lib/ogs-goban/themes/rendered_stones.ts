@@ -18,6 +18,54 @@ import {ThemeNames} from "../GoThemes";
 import GoTheme from "../GoTheme";
 import {_} from "../translate";
 import {deviceCanvasScalingRatio} from "../GoUtil";
+import * as data from "data";
+
+const defaultThemeColors = {
+    [ThemeNames.WornGlass]: {
+        black: "rgba(15,0,20,1.0)",
+        white: "rgba(189,189,194,1.0)",
+    },
+    [ThemeNames.Night]: {
+        black: "rgba(15,15,20,1.0)",
+        white: "rgba(100,100,100,1.0)",
+    },
+    [ThemeNames.Slate]: {
+        black: "rgba(30,30,35,1.0)",
+    },
+    [ThemeNames.Glass]: {
+        black: "rgba(15,15,20,1.0)",
+        white: "rgba(0,205,206,1.0)",
+    },
+    [ThemeNames.Night]: {
+        black: "rgba(15,15,20,1.0)",
+        white: "rgba(100,100,100,1.0)",
+    },
+    // Shell has no customizable Theme color yet
+    // [ThemeNames.Shell]::
+}
+
+
+// Shell has no custom color yet, need to figure out how to make the colors work with the lines property
+
+// Set defaults for each stone theme
+for (let themeName in defaultThemeColors) {
+    for (let color in defaultThemeColors[themeName]) {
+        data.setDefault(
+            selectCustomThemeProperty(themeName, color),defaultThemeColors[themeName][color]);
+    }
+}
+
+
+/**
+ * Returns the key for a
+ *
+ * @param String themeName      The name of the theme
+ * @param String themeType      Type of the theme (e.g. "black" or "board")
+ * @returns String              Property name of the custom setting in data
+ */
+function selectCustomThemeProperty(themeName, themeType): string {
+    return `custom.${themeType}${themeName.replace(/\s+/g, '')}`;
+}
 
 /**
  * Converts an RGB color value to HSL. Conversion formula
@@ -67,9 +115,6 @@ function rgbToHsl(r, g, b) { /* {{{ */
  * @param   Number  l       The lightness
  * @return  Array           The RGB representation
  */
-
-
-
 function hue2rgb(p, q, t) {{{
     if (t < 0) { t += 1; }
     if (t > 1) { t -= 1; }
@@ -390,6 +435,19 @@ function stoneCastsShadow(radius) {{{
 
 export default function(GoThemes) {
     class Common extends GoTheme {
+        protected theme_name: string;
+        protected theme_type: string;
+
+        constructor(theme_name) {
+            super();
+            this.theme_name = theme_name;
+        }
+        public getBlackStoneColor() {
+            return data.get(selectCustomThemeProperty(this.theme_name, "black"));
+        }
+        public getWhiteStoneColor() {
+            return data.get(selectCustomThemeProperty(this.theme_name, "white"));
+        }
         stoneCastsShadow(radius) {
             return stoneCastsShadow(radius * deviceCanvasScalingRatio());
         }
@@ -403,11 +461,14 @@ export default function(GoThemes) {
 
     /* Slate & Shell {{{ */
     class Slate extends Common {
+        constructor() {
+            super(ThemeNames.Slate);
+        }
         sort() { return  30; }
 
         preRenderBlack(radius, seed) {
             return preRenderStone(radius, seed, {
-                "base_color": "rgba(30,30,35,1.0)",
+                "base_color": this.getBlackStoneColor(),
                 "light": normalized([-4, -4, 5]),
                 "ambient": 0.85,
                 "specular_hardness": 17,
@@ -456,10 +517,13 @@ export default function(GoThemes) {
     /* Glass {{{ */
 
     class GlassBlack extends Common {
+        constructor() {
+            super(ThemeNames.Glass);
+        }
         sort() { return  20; }
         preRenderBlack(radius, seed) {
             return preRenderStone(radius, seed, {
-                "base_color": "rgba(15,15,20,1.0)",
+                "base_color": this.getBlackStoneColor(),
                 "light": normalized([-4, -4, 2]),
                 "ambient": 0.85,
                 "specular_hardness": 30,
@@ -477,11 +541,14 @@ export default function(GoThemes) {
 
 
     class GlassWhite extends Common {
+        constructor() {
+            super(ThemeNames.Glass);
+        }
         sort() { return  20; }
 
         preRenderWhite(radius, seed) {
             return preRenderStone(radius, seed *= 13, {
-                "base_color": "rgba(207,205,206,1.0)",
+                "base_color": this.getWhiteStoneColor(),
                 "light": normalized([-4, -4, 2]),
                 "ambient": 1.0,
                 "specular_hardness": 80,
@@ -502,11 +569,14 @@ export default function(GoThemes) {
     /* Worn Glass {{{ */
 
     class WornGlassBlack extends Common {
+        constructor() {
+            super(ThemeNames.WornGlass);
+        }
         sort() { return  21; }
 
         preRenderBlack(radius, seed) {
             return preRenderStone(radius, seed, {
-                "base_color": "rgba(15,15,20,1.0)",
+                "base_color": this.getBlackStoneColor(),
                 "light": normalized([-4, -4, 2]),
                 "ambient": 0.85,
                 "specular_hardness": 20,
@@ -523,11 +593,14 @@ export default function(GoThemes) {
     GoThemes["black"][ThemeNames.WornGlass] = WornGlassBlack;
 
     class WornGlassWhite extends Common {
+        constructor() {
+            super(ThemeNames.WornGlass);
+        }
         sort() { return  21; }
 
         preRenderWhite(radius, seed) {
             return preRenderStone(radius, seed *= 13, {
-                "base_color": "rgba(189,189,194,1.0)",
+                "base_color": this.getWhiteStoneColor(),
                 "light": normalized([-4, -4, 2]),
                 "ambient": 1.0,
                 "specular_hardness": 35,
@@ -545,11 +618,15 @@ export default function(GoThemes) {
 
     /* Night {{{ */
     class NightBlack extends Common {
+        constructor() {
+            super(ThemeNames.Night);
+        }
         sort() { return  100; }
+
 
         preRenderBlack(radius, seed) {
             return preRenderStone(radius, seed, {
-                "base_color": "rgba(15,15,20,1.0)",
+                "base_color": this.getBlackStoneColor(),
                 "light": normalized([-4, -4, 2]),
                 "ambient": 0.85,
                 "specular_hardness": 5,
@@ -567,11 +644,14 @@ export default function(GoThemes) {
 
 
     class NightWhite extends Common {
+        constructor() {
+            super(ThemeNames.Night);
+        }
         sort() { return  100; }
 
         preRenderWhite(radius, seed) {
             return preRenderStone(radius, seed *= 13, {
-                "base_color": "rgba(100,100,100,1.0)",
+                "base_color": this.getWhiteStoneColor(),
                 "light": normalized([-4, -4, 2]),
                 "ambient": 1.0,
                 "specular_hardness": 13,

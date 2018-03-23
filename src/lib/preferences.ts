@@ -93,7 +93,13 @@ export function dump(): void {
     data.dump("preferences.", true);
 }
 
-export function getSelectedThemes() {
+interface SelectedThemes {
+    board: string;
+    white: string;
+    black: string;
+}
+
+export function getSelectedThemes(): SelectedThemes {
     //let default_plain = $.browser.mobile || ($(window).width() * (window.devicePixelRatio || 1)) <= 768;
     let default_plain = ($(window).width() * (window.devicePixelRatio || 1)) <= 768;
 

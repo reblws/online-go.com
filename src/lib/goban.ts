@@ -26,7 +26,7 @@ import * as data from "data";
 import * as player_cache from "player_cache";
 
 
-export {GoEngine, sfx, GoThemes, GoMath, ThemeNames} from 'ogs-goban';
+export {GoEngine, sfx, GoThemes, GoMath, ThemeNames, DefaultThemeColors} from 'ogs-goban';
 export {MoveTree} from 'ogs-goban/MoveTree';
 
 export class Goban extends OGSGoban {

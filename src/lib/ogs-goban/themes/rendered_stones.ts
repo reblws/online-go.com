@@ -14,46 +14,14 @@
  * limitations under the License.
  */
 
-import {ThemeNames} from "../GoThemes";
 import GoTheme from "../GoTheme";
+import {ThemeNames, DefaultThemeColors} from "../GoThemes";
 import {_} from "../translate";
 import {deviceCanvasScalingRatio} from "../GoUtil";
 import * as data from "data";
 
-const defaultThemeColors = {
-    [ThemeNames.WornGlass]: {
-        black: "rgba(15,0,20,1.0)",
-        white: "rgba(189,189,194,1.0)",
-    },
-    [ThemeNames.Night]: {
-        black: "rgba(15,15,20,1.0)",
-        white: "rgba(100,100,100,1.0)",
-    },
-    [ThemeNames.Slate]: {
-        black: "rgba(30,30,35,1.0)",
-    },
-    [ThemeNames.Glass]: {
-        black: "rgba(15,15,20,1.0)",
-        white: "rgba(0,205,206,1.0)",
-    },
-    [ThemeNames.Night]: {
-        black: "rgba(15,15,20,1.0)",
-        white: "rgba(100,100,100,1.0)",
-    },
-    // Shell has no customizable Theme color yet
-    // [ThemeNames.Shell]::
-}
 
 
-// Shell has no custom color yet, need to figure out how to make the colors work with the lines property
-
-// Set defaults for each stone theme
-for (let themeName in defaultThemeColors) {
-    for (let color in defaultThemeColors[themeName]) {
-        data.setDefault(
-            selectCustomThemeProperty(themeName, color),defaultThemeColors[themeName][color]);
-    }
-}
 
 
 /**
@@ -433,20 +401,33 @@ function stoneCastsShadow(radius) {{{
     return radius >= 10;
 }}}
 
-export default function(GoThemes) {
-    class Common extends GoTheme {
-        protected theme_name: string;
-        protected theme_type: string;
+export default function init_rendered(GoThemes) {
+    // Set defaults for each stone theme
+    for (let themeName in DefaultThemeColors) {
+        for (let color in DefaultThemeColors[themeName]) {
+            data.setDefault(
+                selectCustomThemeProperty(themeName, color),
+                DefaultThemeColors[themeName][color]);
+        }
+    }
 
-        constructor(theme_name) {
-            super();
+    class Common extends GoTheme {
+        theme_name: string;
+        can_customize: boolean;
+
+        constructor(theme_name: string, parent?: GoTheme) {
+            super(parent);
             this.theme_name = theme_name;
+            this.can_customize = (this.theme_name in DefaultThemeColors);
         }
-        public getBlackStoneColor() {
-            return data.get(selectCustomThemeProperty(this.theme_name, "black"));
+        public getThemeProperty(themeType: string): string {
+            return selectCustomThemeProperty(this.theme_name, themeType);
         }
-        public getWhiteStoneColor() {
-            return data.get(selectCustomThemeProperty(this.theme_name, "white"));
+        public getBlackStoneColor(): string {
+            return data.get(this.getThemeProperty("black"));
+        }
+        public getWhiteStoneColor(): string {
+            return data.get(this.getThemeProperty("white"));
         }
         stoneCastsShadow(radius) {
             return stoneCastsShadow(radius * deviceCanvasScalingRatio());
@@ -461,8 +442,8 @@ export default function(GoThemes) {
 
     /* Slate & Shell {{{ */
     class Slate extends Common {
-        constructor() {
-            super(ThemeNames.Slate);
+        constructor(parent) {
+            super(ThemeNames.Slate, parent);
         }
         sort() { return  30; }
 
@@ -487,6 +468,9 @@ export default function(GoThemes) {
 
 
     class Shell extends Common {
+        constructor(parent) {
+            super(ThemeNames.Shell, parent);
+        }
         sort() { return  30; }
 
         preRenderWhite(radius, seed) {
@@ -517,8 +501,8 @@ export default function(GoThemes) {
     /* Glass {{{ */
 
     class GlassBlack extends Common {
-        constructor() {
-            super(ThemeNames.Glass);
+        constructor(parent) {
+            super(ThemeNames.Glass, parent);
         }
         sort() { return  20; }
         preRenderBlack(radius, seed) {
@@ -541,8 +525,8 @@ export default function(GoThemes) {
 
 
     class GlassWhite extends Common {
-        constructor() {
-            super(ThemeNames.Glass);
+        constructor(parent) {
+            super(ThemeNames.Glass, parent);
         }
         sort() { return  20; }
 
@@ -569,8 +553,8 @@ export default function(GoThemes) {
     /* Worn Glass {{{ */
 
     class WornGlassBlack extends Common {
-        constructor() {
-            super(ThemeNames.WornGlass);
+        constructor(parent) {
+            super(ThemeNames.WornGlass, parent);
         }
         sort() { return  21; }
 
@@ -593,8 +577,8 @@ export default function(GoThemes) {
     GoThemes["black"][ThemeNames.WornGlass] = WornGlassBlack;
 
     class WornGlassWhite extends Common {
-        constructor() {
-            super(ThemeNames.WornGlass);
+        constructor(parent) {
+            super(ThemeNames.WornGlass, parent);
         }
         sort() { return  21; }
 
@@ -618,8 +602,8 @@ export default function(GoThemes) {
 
     /* Night {{{ */
     class NightBlack extends Common {
-        constructor() {
-            super(ThemeNames.Night);
+        constructor(parent) {
+            super(ThemeNames.Night, parent);
         }
         sort() { return  100; }
 
@@ -644,8 +628,8 @@ export default function(GoThemes) {
 
 
     class NightWhite extends Common {
-        constructor() {
-            super(ThemeNames.Night);
+        constructor(parent) {
+            super(ThemeNames.Night, parent);
         }
         sort() { return  100; }
 

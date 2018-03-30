@@ -15,8 +15,18 @@
  */
 
 import GoTheme from "./GoTheme";
+import init_board_plain from "./themes/board_plain";
+import init_board_woods from "./themes/board_woods";
+import init_disc from "./themes/disc";
+import init_rendered from "./themes/rendered_stones";
 
-export const ThemeNames = {
+export const GoThemes = {
+    white: {} as any,
+    black: {} as any,
+    board: {} as any,
+};
+
+export const ThemeNames = Object.freeze({
     Plain: "Plain",
     NightPlay: "Night Play",
     HNG: "HNG",
@@ -32,18 +42,26 @@ export const ThemeNames = {
     WornGlass: "Worn Glass",
     Night: "Night",
     Slate: "Slate",
-};
+});
 
-export const GoThemes = {
-    white: {} as any,
-    black: {} as any,
-    board: {} as any,
-};
-
-import init_board_plain from "./themes/board_plain";
-import init_board_woods from "./themes/board_woods";
-import init_disc from "./themes/disc";
-import init_rendered from "./themes/rendered_stones";
+// Shell has no custom color yet, need to figure out how to make the colors work with the lines property
+export const DefaultThemeColors = Object.freeze({
+    [ThemeNames.WornGlass]: {
+        black: "rgb(15,0,20)",
+        white: "rgb(189,189,194)",
+    },
+    [ThemeNames.Night]: {
+        black: "rgb(15,15,20)",
+        white: "rgb(100,100,100)",
+    },
+    [ThemeNames.Slate]: {
+        black: "rgb(30,30,35)",
+    },
+    [ThemeNames.Glass]: {
+        black: "rgb(15,15,20)",
+        white: "rgb(0,205,206)",
+    },
+});
 
 init_board_plain(GoThemes);
 init_board_woods(GoThemes);

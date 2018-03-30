@@ -18,11 +18,17 @@ import GoTheme from "../GoTheme";
 import {_} from "../translate";
 import * as data from "data";
 
-data.setDefault("custom.black", "#000000");
-data.setDefault("custom.white", "#FFFFFF");
+export default function init_disc(GoThemes) {
+    // Initialize defaults
+    data.setDefault("custom.black", "#000000");
+    data.setDefault("custom.white", "#FFFFFF");
 
-export default function(GoThemes) {
     class Stone extends GoTheme {
+        theme_name: string;
+        constructor(parent) {
+            super(parent);
+            this.theme_name = ThemeNames.Plain;
+        }
         sort() { return  0; }
 
         placePlainStone(ctx, cx, cy, radius, color) {

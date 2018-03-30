@@ -3125,7 +3125,6 @@ export abstract class Goban extends TypedEventEmitter<Events> {
         }
 
         this.themes = themes;
-
         this.theme_board = new (GoThemes["board"][themes.board])();
         this.theme_white = new (GoThemes["white"][themes.white])(this.theme_board);
         this.theme_black = new (GoThemes["black"][themes.black])(this.theme_board);

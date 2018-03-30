@@ -19,7 +19,7 @@ import * as React from "react";
 import {_, pgettext, interpolate} from "translate";
 import {post, get} from "requests";
 import {errorAlerter} from "misc";
-import {GoThemes, ThemeNames} from "goban";
+import {GoThemes, ThemeNames, DefaultThemeColors} from "goban";
 import {getSelectedThemes} from "preferences";
 import * as preferences from "preferences";
 import {PersistentElement} from "PersistentElement";
@@ -50,8 +50,6 @@ export class GobanThemePicker extends React.PureComponent<GobanThemePickerProper
             black: selected.black,
             boardCustom: this.getCustom("board"),
             lineCustom: this.getCustom("line"),
-            whiteCustom: this.getCustom("white"),
-            blackCustom: this.getCustom("black")
         };
 
         for (let k in GoThemes) {
@@ -80,7 +78,7 @@ export class GobanThemePicker extends React.PureComponent<GobanThemePickerProper
     componentWillUnmount() {
     }
 
-    getCustom(key) {
+    getCustom(key: string) {
         return data.get(`custom.${key}`);
     }
     setCustom(key, event) {
@@ -100,10 +98,31 @@ export class GobanThemePicker extends React.PureComponent<GobanThemePickerProper
         preferences.set(`goban-theme-${key}`, this.state[key]);
     }
 
+    setCustomThemeColor(type: string, themeName: string, event: Event): void {
+        if (themeName === ThemeNames.Plain) {
+            this.setCustom(type, event);
+        } else {
+            this.setCustom((type + themeName).replace(/\s+/g, ""), event);
+        }
+    }
+
+    getCustomThemeColor(type: string, themeName: string): string {
+        if (!themeName || themeName === ThemeNames.Plain) {
+            return data.get(type);
+        }
+        return this.getCustom((type + themeName).replace(/\s+/g, ""));
+    }
+
     render() {
         let inputStyle = {height: `${this.state.size}px`, width: `${this.state.size * 1.5}px`};
-        let {boardCustom, lineCustom, whiteCustom, blackCustom} = this.state;
-
+        let {boardCustom, lineCustom} = this.state;
+        let whiteCustom = this.getCustomThemeColor("white", this.state.white);
+        let blackCustom = this.getCustomThemeColor("black", this.state.black);
+        // TODO:
+        // 1) In order to display our saved settings, we need to convert
+        //    our rgb string to a valid hexadecimal format
+        //    so it can be displayed in the color input
+        // -> Just change the default colors to hexadecimal strings
         return (
             <div className="GobanThemePicker">
                 <div className="theme-set">
@@ -126,7 +145,7 @@ export class GobanThemePicker extends React.PureComponent<GobanThemePickerProper
                             <input type="color" style={inputStyle} value={lineCustom} onChange={this.setCustom.bind(this, "line")} />
                             <button className="color-reset" onClick={this.setCustom.bind(this, "line")}><i className="fa fa-undo"/></button>
                         </div>
-                    }
+                }
                 </div>
 
                 <div className="theme-set">
@@ -139,10 +158,10 @@ export class GobanThemePicker extends React.PureComponent<GobanThemePickerProper
                             <PersistentElement elt={this.canvases.white[idx]} />
                         </div>
                     ))}
-                    {this.state.white === ThemeNames.Plain &&
+                    {(this.state.white === ThemeNames.Plain || this.state.white in DefaultThemeColors) &&
                         <div>
                             <input type="color" style={inputStyle} value={whiteCustom} onChange={this.setCustom.bind(this, "white")} />
-                            <button className="color-reset" onClick={this.setCustom.bind(this, "white")}><i className="fa fa-undo"/></button>
+                            <button className="color-reset" onClick={this.setCustomThemeColor.bind(this, "white", this.state.white)}><i className="fa fa-undo"/></button>
                         </div>
                     }
                 </div>
@@ -157,10 +176,10 @@ export class GobanThemePicker extends React.PureComponent<GobanThemePickerProper
                             <PersistentElement elt={this.canvases.black[idx]} />
                         </div>
                     ))}
-                    {this.state.black === ThemeNames.Plain &&
+                    {(this.state.black === ThemeNames.Plain || this.state.black in DefaultThemeColors) &&
                         <div>
-                            <input type="color" style={inputStyle} value={blackCustom} onChange={this.setCustom.bind(this, "black")} />
-                            <button className="color-reset" onClick={this.setCustom.bind(this, "black")}><i className="fa fa-undo"/></button>
+                            <input type="color" style={inputStyle} value={blackCustom} onChange={this.setCustomThemeColor.bind(this, "black")} />
+                            <button className="color-reset" onClick={this.setCustomThemeColor.bind(this, "black", this.state.black)}><i className="fa fa-undo"/></button>
                         </div>
                     }
                 </div>
